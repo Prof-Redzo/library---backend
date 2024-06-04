@@ -2,13 +2,8 @@ import express from "express";
 
 const app = express();
 
-app.get('/healthcheck', (req, res) => {
-  try {
-    res.send(healthcheck);
-  } catch (error) {
-    healthcheck.message = error;
-    res.status(503).send();
-  }
+app.get('/', (req, res) => {
+  res.send("Working");
 });
 
 const PORT = process.env.PORT || 3000;
