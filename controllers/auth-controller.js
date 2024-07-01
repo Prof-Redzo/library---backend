@@ -30,7 +30,9 @@ export const registerUser = async (req,res) => {
 export const login = async (req, res) => {
   try{
   const { email, password } = req.body;
+  console.log(email);
   const user = await User.findOne({ email });
+  console.log(user);
   if(!user) {
     return res.status(401).send("Wrong credentials");
   }
