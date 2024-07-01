@@ -13,12 +13,8 @@ await mongoose.connect(`${process.env.DB_URL}/${process.env.DB_NAME}`) }
 connectToDb().then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send("Working");
-});
-
 app.use(userRouter);
 
 app.listen(PORT, () => {
