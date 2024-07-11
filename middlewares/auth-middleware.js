@@ -1,12 +1,14 @@
 import jwt from "jsonwebtoken";
 
-export const verify = (req, res, next) => {
+const verify = (req, res, next) => {
   console.log(`${req.method} ${req.url}`);
+  console.log(req.headers);
+  const token = req.headers.token;
 if(!token) {
   return res.status(401).send("Unauthorized");
 }
 try {
-  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   req.user = decoded;
   next();
 } catch(e) {

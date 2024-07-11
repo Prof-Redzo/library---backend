@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import bodyParser from "body-parser";
 import userRouter from "./routes/auth-routes.js";
-import { verify } from "./middlewares/auth-middleware.js";
+import bookRouter from "./routes/book-router.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,27 +17,7 @@ connectToDb().then(() => console.log("MongoDB Connected"))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(userRouter);
-
-
-app.post('/books', verify, async (req, res) => {
-  const { title, authorsName } = req.body;
-
-  if (!title || !authorsName) {
-    return res.status(400).json({ message: 'Title and author are required' });
-  }
-
-  try {
-    const book = new book({
-      title,
-      authorsName,
-      createdBy: req.user.id 
-    });
-    await book.save();
-    res.status(201).json({ message: 'Book created successfully', book });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+app.use(bookRouter);
 
 
 app.listen(PORT, () => {
