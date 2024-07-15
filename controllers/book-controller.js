@@ -19,3 +19,23 @@ export const createBook = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const deleteBook = async (req, res) => {
+  const { id } = req.params;
+   
+   try{
+    if(id){
+ const result = await Book.findByIdAndDelete(id);
+ 
+if (result) {
+  res.status(204).send();
+} else {
+  res.status(404).send("Book not found");
+}
+} else {
+  res.status(403).send("Cannot delete book");
+}
+} catch(e) {
+  res.status(500).send("Something went wrong");
+}
+};
