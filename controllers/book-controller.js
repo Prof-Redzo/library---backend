@@ -42,17 +42,9 @@ if (result) {
 
 export const updateBook = async (req, res) => {
   const { id } = req.params;
-
+  const updates = Object.keys(req.body);
   try {
     
-    const allowedUpdates = ['title', 'authorsName'];
-    const updates = Object.keys(req.body);
-    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
-
-    if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid updates!' });
-    }
-
     const book = await Book.findOne({ _id: id, createdBy: req.user._id });
 
     if (!book) {
