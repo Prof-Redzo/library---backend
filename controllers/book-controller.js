@@ -59,3 +59,28 @@ export const updateBook = async (req, res) => {
     res.status(500).send({ error: 'Internal Server Error' });
   }
 };
+
+export const searchBooks = async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    let books;
+    if (query) {
+   
+      books = await Book.find({
+        $or: [
+          { title: new RegExp(query, 'i') },
+          { authorsName: new RegExp(query, 'i') }
+        ]
+      });
+    } else {
+     
+      books = await Book.find({});
+    }
+
+    res.status(200).send(books);
+  } catch (error) {
+    console.error('Error searching for books:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+}; 
